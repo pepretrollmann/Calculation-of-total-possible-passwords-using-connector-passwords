@@ -1,0 +1,136 @@
+sett_to_null_for_normal = 1
+
+def Check_if_valid(location, location2, list):
+    if sett_to_null_for_normal == 1:
+
+        if location == 5 and location2 != 5: application = 1
+
+        elif location in [7, 9, 3, 1] and location2 in [4, 8, 6, 2, 5]: application = 1
+
+        elif location in [2,8] and location2 not in [8,2]: application = 1
+        elif location in [4,6] and location2 not in [6,4]: application = 1
+
+        elif location == 7 and location2 == 1 and list[3] != 4: application = 1
+        elif location == 7 and location2 == 3 and list[4] != 5: application = 1
+        elif location == 7 and location2 == 9 and list[7] != 8: application = 1
+
+        elif location == 9 and location2 == 7 and list[7] != 8: application = 1
+        elif location == 9 and location2 == 1 and list[4] != 5: application = 1
+        elif location == 9 and location2 == 3 and list[5] != 6: application = 1
+
+        elif location == 3 and location2 == 1 and list[1] != 2: application = 1
+        elif location == 3 and location2 == 7 and list[4] != 5: application = 1
+        elif location == 3 and location2 == 9 and list[5] != 6: application = 1
+
+        elif location == 1 and location2 == 7 and list[3] != 4: application = 1
+        elif location == 1 and location2 == 9 and list[4] != 5: application = 1
+        elif location == 1 and location2 == 3 and list[7] != 8: application = 1
+
+        elif location == 4 and location2 == 6 and list[4] != 5: application=1
+        elif location == 6 and location2 == 4 and list[4] != 5: application=1
+        elif location == 8 and location2 == 2 and list[4] != 5: application=1
+        elif location == 2 and location2 == 8 and list[4] != 5: application=1
+
+        else: application = 0
+    else: application = 1
+    return application
+  
+number_of_possible_solutions = 0;
+how_many_runns = 0;
+
+list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+list_in_use = []
+
+list_in_use = list
+for first_location in range(len(list_in_use)): 
+    list_in_use_ = list_in_use.copy()
+    list_in_use_[first_location] = 0
+
+
+    for second_location in range(len(list_in_use_)):
+
+        if list_in_use_[second_location] == 0: continue
+        second_digit = Check_if_valid(list_in_use[first_location], list_in_use_[second_location], list_in_use_)
+
+        if second_digit == 1: 
+            list_in_use2 = list_in_use_.copy()
+            list_in_use2[second_location] = 0
+        else: continue
+
+
+        for third_location in range(len(list_in_use2)):
+
+            if list_in_use2[third_location] == 0: continue
+            third_digit = Check_if_valid(list_in_use_[second_location], list_in_use2[third_location], list_in_use2)
+
+            if third_digit == 1: 
+                list_in_use3 = list_in_use2.copy()
+                list_in_use3[third_location] = 0
+            else: continue
+
+
+            for forth_location in range(len(list_in_use3)):
+
+                if list_in_use3[forth_location] == 0: continue
+                forth_digit = Check_if_valid(list_in_use2[third_location], list_in_use3[forth_location], list_in_use3)
+                if forth_digit == 1: 
+                    list_in_use4 = list_in_use3.copy()
+                    list_in_use4[forth_location] = 0
+                else: continue
+
+
+                for fift_location in range(len(list_in_use4)):
+
+                    if list_in_use4[fift_location] == 0: continue
+                    fift_digit = Check_if_valid(list_in_use3[forth_location], list_in_use4[fift_location], list_in_use4)
+                    if fift_digit == 1: 
+                        list_in_use5 = list_in_use4.copy()
+                        list_in_use5[fift_location] = 0
+                    else: continue
+
+
+                    for sixth_location in range(len(list_in_use5)):
+
+                        if list_in_use5[sixth_location] == 0: continue
+                        sixth_digit = Check_if_valid(list_in_use4[fift_location], list_in_use5[sixth_location], list_in_use5)
+                        if sixth_digit == 1: 
+                            list_in_use6 = list_in_use5.copy()
+                            list_in_use6[sixth_location] = 0
+                        else: continue
+
+
+                        for seventh_location in range(len(list_in_use6)):
+
+                            if list_in_use6[seventh_location] == 0: continue
+                            seventh_digit = Check_if_valid(list_in_use5[sixth_location], list_in_use6[seventh_location], list_in_use6)
+                            if seventh_digit == 1: 
+                                list_in_use7 = list_in_use6.copy()
+                                list_in_use7[seventh_location] = 0
+                            else: continue
+
+
+                            for eight_location in range(len(list_in_use7)):
+                                
+                            
+                                if list_in_use7[eight_location] == 0: continue
+                                eight_digit = Check_if_valid(list_in_use6[seventh_location], list_in_use7[eight_location], list_in_use7)
+                                if eight_digit == 1: 
+                                    list_in_use8 = list_in_use7.copy()
+                                    list_in_use8[eight_location] = 0
+                                else: continue
+
+                                for nineth_location in range(len(list_in_use8)):
+                                    how_many_runns += 1;
+                                    if list_in_use8[nineth_location] == 0: continue
+                                    nineth_digit = Check_if_valid(list_in_use7[eight_location], list_in_use8[nineth_location], list_in_use8)
+                                    if nineth_digit == 1: 
+                                        number_of_possible_solutions += 1;
+                                    else: continue
+
+print("number of runns:", how_many_runns)
+print("number of possible solutions:", number_of_possible_solutions)
+print("refrence mod of 9:",362880)
+
+# 7 8 9
+# 4 5 6
+# 1 2 3
