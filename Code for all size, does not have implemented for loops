@@ -1,0 +1,108 @@
+import numpy as np
+import itertools 
+def find_correct_relation(loc1, loc2, current_matrix):
+
+    location = list((loc1[0][0],loc1[0][1]))
+    location2 = list((loc2[0][0],loc2[0][1]))
+
+    found_the_location = 0
+    vector = [0,0]
+    vector[0] = location2[0]-location[0]
+    vector[1] = location2[1]-location[1]
+    length = (vector[0]**2+vector[1]**2)**(1/2)
+    number = 0
+    
+    for a in range(1,N):
+        for k in range(1,N):
+            for b in range(0,N):
+                if length == (a**2+b**2)**(1/2)*k:
+                    found_the_location = 1
+                    number = [a,b,k]
+                    break
+            if found_the_location == 1: break
+        if found_the_location == 1: break
+
+    if found_the_location == 1:
+        unit_vector = np.array(vector)
+        unit_vector = unit_vector / number[2]
+        relation_between_points = (unit_vector, number[2])
+
+        points = how_many_connections_inbetween(location, relation_between_points)
+        point_validation = check_if_point_is_valid(points, current_matrix)
+        application = point_validation
+
+    else: application = 0
+    
+    return application
+
+
+def how_many_connections_inbetween(loc1, relat):
+    loc1_numpy = np.array(loc1)
+    points = []
+    for x in range(relat[1]+1):
+        res_numpy = loc1_numpy + relat[0]*x
+        res_list = [int(res_numpy[0]), int(res_numpy[1])]
+        points.append(res_list)
+
+    return points
+
+
+def check_if_point_is_valid(points,matrix):
+    valid = 1
+    point_is_OK = 0
+    if -1 not in matrix[points[0][0], points[0][1]]:
+        if -1 not in matrix[points[-1][0], points[-1][1]]:
+            for x in range(1,len(points)-1):
+                checked_point = matrix[points[x][0],points[x][1]]
+                if -1 not in checked_point:
+                    valid = 0
+                    break
+            if valid != 0: point_is_OK = 1
+            else: point_is_OK = 0
+        else: point_is_OK = 0
+    else: point_is_OK = 0
+    return point_is_OK
+
+#----------------------------------------------------------------
+#print("Write inn the size of the pattern password - 3x3 = 3, 4x4 = 4..")
+#N = input()
+
+number_of_possible_solutions = 0;
+how_many_runns = 0;
+N = 3
+
+D1_line = np.zeros(N*N*2)
+matrix = D1_line.reshape(N,N,2)
+for x_axis in range(0,N):
+    for y_axis in range(0,N):
+        matrix[x_axis, y_axis, 0] =x_axis
+        matrix[x_axis, y_axis, 1] =y_axis
+
+#---------------------------------------------------------------------
+#example for loop for one check:
+
+matrix01 = matrix.copy()
+for row01 in itertools.repeat(None, len(matrix01)): 
+    for colom01 in itertools.repeat(None, len(matrix01[0])):
+        matrix01[row01][colom01] = 0
+        matrix02 = matrix01.copy()
+
+
+        current_number01 = matrix01[row01][colom01];
+        for row02 in itertools.repeat(None, len(matrix02)): 
+            for colom02 in itertools.repeat(None, len(matrix02[0])):
+                if -1 in matrix02[row02][colom02]: continue
+                digit02 = find_correct_relation(current_number01, matrix02[row02][colom02], matrix01)
+                if digit02 == 1: 
+                    matrix03 = matrix02.copy()
+                    matrix03[row02][colom02] = 0
+                else: continue
+
+
+print("number of runns:", how_many_runns)
+print("number of possible solutions:", number_of_possible_solutions)
+print("refrence mod of 9:",362880)
+
+# 7 8 9
+# 4 5 6
+# 1 2 3
